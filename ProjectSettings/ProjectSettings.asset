@@ -8,11 +8,11 @@ PlayerSettings:
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
-  defaultScreenOrientation: 4
+  defaultScreenOrientation: 0
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+  companyName: AngagsuGameStudio
   productName: Endless Runner
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -159,7 +159,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   androidMinAspectRatio: 1
   applicationIdentifier:
-    Android: com.DefaultCompany.EndlessRunner
+    Android: com.AngagsuGameStudio.EndlessRunner
     Standalone: com.DefaultCompany.Endless-Runner
   buildNumber:
     Bratwurst: 0
@@ -857,7 +857,7 @@ PlayerSettings:
   qnxGraphicConfPath: 
   apiCompatibilityLevel: 6
   captureStartupLogs: {}
-  activeInputHandler: 0
+  activeInputHandler: 1
   windowsGamepadBackendHint: 0
   cloudProjectId: 6da3068f-fdb2-41d0-9899-4aa5b5758f8b
   framebufferDepthMemorylessMode: 0
