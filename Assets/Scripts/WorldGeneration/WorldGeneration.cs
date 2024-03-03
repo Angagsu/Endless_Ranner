@@ -19,12 +19,12 @@ public class WorldGeneration : MonoBehaviour
 
 
 
-    #region To Delete $$
+    
     private void Awake()
     {
         ResetWorld();
     }
-    #endregion
+    
     private void Start()
     {
         if (chunkPrefab.Count == 0)
@@ -40,12 +40,7 @@ public class WorldGeneration : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        ScanPosition();
-    }
-
-    private void ScanPosition()
+    public void ScanPosition()
     {
         float cameraZ = camerTransform.position.z;
         Chunk lastChunk = activeChunks.Peek();

@@ -15,20 +15,27 @@ public class PlayerMotor : MonoBehaviour
     public float Gravity = 14f;
     public float TerminalVelocity = 20f;
 
-    private CharacterController Controller;
+    public CharacterController Controller { get; private set; }
+    public Animator animator;
 
     private BaseState state;
+    private bool isPaused;
 
     private void Start()
     {
         Controller = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
         state = GetComponent<RunningState>();
         state.Construct();
+        isPaused = true;
     }
 
     private void Update()
     {
-        UpdateMotor();
+        if (!isPaused)
+        {
+            UpdateMotor();
+        }   
     }
 
     private void UpdateMotor()
@@ -38,6 +45,9 @@ public class PlayerMotor : MonoBehaviour
         MoveVector = state.ProcessMotion();
 
         state.Transition();
+
+        animator?.SetBool("IsGrounded", IsGrounded);
+        animator?.SetFloat("Speed", Mathf.Abs(MoveVector.z));
 
         Controller.Move(MoveVector * Time.deltaTime);
     }
@@ -78,5 +88,51 @@ public class PlayerMotor : MonoBehaviour
         this.state.Destruct();
         this.state = state;
         this.state.Construct();
+    }
+
+    public void ApplyGravity()
+    {
+        VerticalVelocity -= Gravity * Time.deltaTime;
+
+        if (VerticalVelocity < -TerminalVelocity)
+        {
+            VerticalVelocity = -TerminalVelocity;
+        }
+    }
+
+    public void PausePlayer()
+    {
+        isPaused = true;
+    }
+
+    public void ResumePlayer()
+    {
+        isPaused = false;
+    }
+
+    public void RespawnPlayer()
+    {
+        ChangeState(GetComponent<RespawnState>());
+        GameManager.Instance.ChangeCamera(Cameras.Respawn);
+    }
+
+    public void ResetPlayer()
+    {
+        CurrentLane = 0;
+        transform.position = Vector3.zero;
+        animator?.SetTrigger("Idle");
+        ChangeState(GetComponent<RunningState>());
+        PausePlayer();
+    }
+
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        string hitLayerName = LayerMask.LayerToName(hit.gameObject.layer);
+
+        if (hitLayerName == "Death")
+        {
+            ChangeState(GetComponent<DeathState>());
+        }
     }
 }

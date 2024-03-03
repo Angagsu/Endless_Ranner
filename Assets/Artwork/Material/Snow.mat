@@ -28,7 +28,7 @@ Material:
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -147,17 +147,19 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _Tiling: 5
+    - _Tiling: 30
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _curvature: 0.005
+    - _curvature: 0.00012
     - _offset: 0
+    - _tiling: 25
     m_Colors:
     - Vector2_F5E3D7D7: {r: 0, g: -90.02279, b: 0, a: 0}
     - _BaseColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
     - _Color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _offset: {r: 0, g: -3.242634, b: 0, a: 0}
     - snowOffset: {r: 0, g: -0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
