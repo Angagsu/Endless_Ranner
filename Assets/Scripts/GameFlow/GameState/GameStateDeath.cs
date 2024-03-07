@@ -24,11 +24,24 @@ public class GameStateDeath : GameState
         deathUI.SetActive(true);
         timerImage.gameObject.SetActive(true);
 
-        
-        highscoreText.text = "Highscore : TBD";
-        currentScoreText.text = "?16441";
-        fishTotalScoreText.text = "Total : TBD";
-        fishCurrentScoreText.text = "?x21";
+        if (SaveManager.Instance.SaveState.Highscore < (int)GameStats.Instance.score)
+        {
+            SaveManager.Instance.SaveState.Highscore = (int)GameStats.Instance.score;
+            currentScoreText.color = Color.green;
+        }
+        else
+        {
+            currentScoreText.color = Color.white;
+        }
+
+        SaveManager.Instance.SaveState.Fish += GameStats.Instance.currentFishCount;
+
+        SaveManager.Instance.Save();
+
+        highscoreText.text = "Highscore: " + SaveManager.Instance.SaveState.Highscore;
+        currentScoreText.text = GameStats.Instance.ScoreToText();
+        fishTotalScoreText.text = "Total fish: " + SaveManager.Instance.SaveState.Fish;
+        fishCurrentScoreText.text = GameStats.Instance.FishToText();
     }
 
     public override void Destruct()

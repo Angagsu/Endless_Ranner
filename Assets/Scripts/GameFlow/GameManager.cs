@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     private GameState state;
 
 
-    private void Awake()
+    private void Start()
     {
         instance = this;
         state = GetComponent<GameStateInit>();
