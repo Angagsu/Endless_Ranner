@@ -1,12 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class HatLogic : MonoBehaviour
 {
-
     [SerializeField] private Transform hatContainer;
+
     private Hat[] hats;
     private List<GameObject> hatModels = new List<GameObject>();
+
+
     private void Start()
     {
         hats = Resources.LoadAll<Hat>("Hat");

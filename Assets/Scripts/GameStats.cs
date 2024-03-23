@@ -1,20 +1,20 @@
 using System;
 using UnityEngine;
 
+
 public class GameStats : MonoBehaviour
 {
     public static GameStats Instance { get; private set; }
 
-    public float score;
-    public float highscore;
-    public float distanceModifier = 1.5f;
-
-    public int totalFish;
-    public int currentFishCount;
-    public float pointsPerFish;
+    public float Score { get; private set; }
+    public int CurrentFishCount { get; private set; }
 
     public Action<int> FishCollected;
     public Action<float> ScoreChanged;
+
+    [SerializeField] private float distanceModifier = 1.5f;
+    [SerializeField] private float pointsPerFish;
+    [SerializeField] private AudioClip collectFishSFX;
 
     private float lastScoreUpdate;
     private float scoreUpdateDelta = 0.2f;
@@ -27,40 +27,41 @@ public class GameStats : MonoBehaviour
     private void Update()
     {
         float s = GameManager.Instance.PlayerMotor.transform.position.z * distanceModifier;
-        s += currentFishCount * pointsPerFish;
+        s += CurrentFishCount * pointsPerFish;
 
-        if (s > score)
+        if (s > Score)
         {
-            score = s;
+            Score = s;
             if (Time.time - lastScoreUpdate > scoreUpdateDelta)
             {
                 lastScoreUpdate = Time.time;
-                ScoreChanged?.Invoke(score);
+                ScoreChanged?.Invoke(Score);
             }
         }
     }
 
     public void OnCollectFish()
     {
-        currentFishCount++;
-        FishCollected?.Invoke(currentFishCount);
+        CurrentFishCount++;
+        FishCollected?.Invoke(CurrentFishCount);
+        AudioManager.Instance.PlaySFX(collectFishSFX);
     }
 
     public void ResetSession()
     {
-        score = 0;
-        currentFishCount = 0;
-        ScoreChanged?.Invoke(score);
-        FishCollected?.Invoke(currentFishCount);
+        Score = 0;
+        CurrentFishCount = 0;
+        ScoreChanged?.Invoke(Score);
+        FishCollected?.Invoke(CurrentFishCount);
     }
 
     public string ScoreToText()
     {
-        return score.ToString("0000000");
+        return Score.ToString("0000000");
     }
 
     public string FishToText()
     {
-        return currentFishCount.ToString("0000");
+        return CurrentFishCount.ToString("0000");
     }
 }

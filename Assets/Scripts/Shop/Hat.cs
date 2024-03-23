@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 [CreateAssetMenu(fileName = "Hat", menuName = "ShopItems")]
 public class Hat : ScriptableObject
 {

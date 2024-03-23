@@ -1,22 +1,20 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class WorldGeneration : MonoBehaviour
 {
-    // Gameplay
     private float chunkSpawnZ;
     private Queue<Chunk> activeChunks = new Queue<Chunk>();
     private List<Chunk> chunkPool = new List<Chunk>();
 
-    // Configurable fields
+
     [SerializeField] private int firstChunkSpawnPosition = -10;
     [SerializeField] private int chunkOnScreen = 5;
     [SerializeField] private float despawnDistanse = 5;
 
     [SerializeField] private List<GameObject> chunkPrefab;
-    [SerializeField] private Transform camerTransform;
-
+    [SerializeField] private Transform cameraTransform;
 
 
     
@@ -33,16 +31,16 @@ public class WorldGeneration : MonoBehaviour
             return;
         }
 
-        if (!camerTransform)
+        if (!cameraTransform)
         {
-            camerTransform = Camera.main.transform;
+            cameraTransform = Camera.main.transform;
             Debug.Log("we have assigned cameraTransform automaticaly to the Camer.main");
         }
     }
 
     public void ScanPosition()
     {
-        float cameraZ = camerTransform.position.z;
+        float cameraZ = cameraTransform.position.z;
         Chunk lastChunk = activeChunks.Peek();
 
         if (cameraZ >= lastChunk.transform.position.z + lastChunk.ChunkLength + despawnDistanse)

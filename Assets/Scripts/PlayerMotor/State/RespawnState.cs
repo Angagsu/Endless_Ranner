@@ -1,8 +1,14 @@
 using UnityEngine;
+
+
 public class RespawnState : BaseState
 {
+    private const string RESPAWN_ANIMATION = "Respawn";
+
+
     [SerializeField] private float verticalDistance = 25f;
     [SerializeField] private float immunityTime = 1f;
+    
     private float startTime;
 
 
@@ -16,8 +22,8 @@ public class RespawnState : BaseState
         playerMotor.Controller.enabled = true;
 
         playerMotor.VerticalVelocity = 0;
-        playerMotor.CurrentLane = 0;
-        playerMotor.animator?.SetTrigger("Respawn");
+        playerMotor.ResetCurrentLine();
+        playerMotor.Animator?.SetTrigger(RESPAWN_ANIMATION);
     }
 
     public override void Destruct()
@@ -42,7 +48,7 @@ public class RespawnState : BaseState
     {
         if (playerMotor.IsGrounded && (Time.time - startTime) > immunityTime)
         {
-            playerMotor.ChangeState(GetComponent<RunningState>());
+            playerMotor.ChangeState(runningState);
         }
         if (InputManager.Instance.SwipeRight)
         {

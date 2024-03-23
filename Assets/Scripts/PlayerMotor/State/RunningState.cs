@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class RunningState : BaseState
 {
     public override void Construct()
@@ -30,15 +31,15 @@ public class RunningState : BaseState
         }
         if (InputManager.Instance.SwipeUp && playerMotor.IsGrounded)
         {
-            playerMotor.ChangeState(GetComponent<JumpingState>());
+            playerMotor.ChangeState(jumpingState);
         }
         if (!playerMotor.IsGrounded)
         {
-            playerMotor.ChangeState(GetComponent<FallingState>());
+            playerMotor.ChangeState(fallingState);
         }
         if (InputManager.Instance.SwipeDown)
         {
-            playerMotor.ChangeState(GetComponent<SlidingState>());
+            playerMotor.ChangeState(slidingState);
         }
     }
 }

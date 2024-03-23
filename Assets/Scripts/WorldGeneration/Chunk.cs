@@ -1,8 +1,9 @@
 using UnityEngine;
 
+
 public class Chunk : MonoBehaviour
 {
-    public float ChunkLength;
+    [field: SerializeField] public float ChunkLength { get; private set; }
 
     public Chunk ShowChunk()
     {

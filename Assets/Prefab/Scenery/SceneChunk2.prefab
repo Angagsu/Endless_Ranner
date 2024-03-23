@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b10dcf1399b814db052018abfe0ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChunkLength: 10
+  <ChunkLength>k__BackingField: 10
 --- !u!1001 &155027599430801726
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -15,4 +15,4 @@ MonoBehaviour:
   ItemName: Test Hat #2
   ItemPrice: 5
   Thumbnail: {fileID: 21300000, guid: 648e74bcffb5dcd4e80f6c4528954c61, type: 3}
-  Model: {fileID: 100000, guid: 307f4aff9d761194ea558fc88d9d3b79, type: 3}
+  Model: {fileID: 100000, guid: a41b2b28d2c370148b5fcb7cb91b34a4, type: 3}

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class SnowFloor : MonoBehaviour
 {
     [SerializeField] private Transform player;

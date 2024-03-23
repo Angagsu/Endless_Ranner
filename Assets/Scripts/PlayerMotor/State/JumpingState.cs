@@ -1,13 +1,17 @@
 using UnityEngine;
 
+
 public class JumpingState : BaseState
 {
-    public float JumpForce = 7f;
+    private const string JUMP_ANIMATION = "Jump";
+
+
+    [SerializeField] private float JumpForce = 7f;
 
     public override void Construct()
     {
         playerMotor.VerticalVelocity = JumpForce;
-        playerMotor.animator?.SetTrigger("Jump");
+        playerMotor.Animator?.SetTrigger(JUMP_ANIMATION);
     }
 
     public override Vector3 ProcessMotion()
@@ -25,9 +29,17 @@ public class JumpingState : BaseState
 
     public override void Transition()
     {
+        if (InputManager.Instance.SwipeRight)
+        {
+            playerMotor.ChangeLane(1);
+        }
+        if (InputManager.Instance.SwipeLeft)
+        {
+            playerMotor.ChangeLane(-1);
+        }
         if (playerMotor.VerticalVelocity < 0)
         {
-            playerMotor.ChangeState(GetComponent<FallingState>());
+            playerMotor.ChangeState(fallingState);
         }
     }
 }

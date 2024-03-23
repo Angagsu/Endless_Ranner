@@ -1,31 +1,45 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 public class PlayerMotor : MonoBehaviour
 {
-    [HideInInspector] public Vector3 MoveVector;
-    [HideInInspector] public float VerticalVelocity;
-    [HideInInspector] public bool IsGrounded;
-    [HideInInspector] public int CurrentLane = 0;
+    private const string IS_GROUNDED_ANIMATION = "IsGrounded";
+    private const string SPEED_ANIMATION = "Speed";
+    private const string IDLE_ANIMATION = "Idle";
 
-    public float DinstanceInBetweenLanes = 3f;
-    public float BaseRunSpeed = 5f;
-    public float BaseSidewaySpeed = 10f;
-    public float Gravity = 14f;
-    public float TerminalVelocity = 20f;
+    public float VerticalVelocity { get; set; }
+    public bool IsGrounded { get; private set; }
+    public int CurrentLane { get; private set; } = 0;
+    public Vector3 MoveVector { get; private set; }
+
+    [field: SerializeField] public float BaseRunSpeed { get; private set; } = 5f;
+    [field: SerializeField] public float Gravity { get; private set; } = 14f;
+
+    [SerializeField] private float DinstanceInBetweenLanes = 3f;
+    [SerializeField] private float BaseSidewaySpeed = 10f;
+    [SerializeField] private float TerminalVelocity = 20f;
+    [SerializeField] private AudioClip deathSFX;
 
     public CharacterController Controller { get; private set; }
-    public Animator animator;
+    public Animator Animator { get; private set; }
 
     private BaseState state;
+
+    private RunningState runningState;
+    private RespawnState respawnState;
+    private DeathState deathState;
+
     private bool isPaused;
 
     private void Start()
     {
         Controller = GetComponent<CharacterController>();
-        animator = GetComponent<Animator>();
+        Animator = GetComponent<Animator>();
         state = GetComponent<RunningState>();
+        runningState = GetComponent<RunningState>();
+        respawnState = GetComponent<RespawnState>();
+        deathState = GetComponent<DeathState>();
+
         state.Construct();
         isPaused = true;
     }
@@ -46,8 +60,8 @@ public class PlayerMotor : MonoBehaviour
 
         state.Transition();
 
-        animator?.SetBool("IsGrounded", IsGrounded);
-        animator?.SetFloat("Speed", Mathf.Abs(MoveVector.z));
+        Animator?.SetBool(IS_GROUNDED_ANIMATION, IsGrounded);
+        Animator?.SetFloat(SPEED_ANIMATION, Mathf.Abs(MoveVector.z));
 
         Controller.Move(MoveVector * Time.deltaTime);
     }
@@ -83,6 +97,11 @@ public class PlayerMotor : MonoBehaviour
         CurrentLane = Mathf.Clamp((CurrentLane + direction), -1, 1);
     }
 
+    public void ResetCurrentLine()
+    {
+        CurrentLane = 0;
+    }
+
     public void ChangeState(BaseState state)
     {
         this.state.Destruct();
@@ -112,7 +131,7 @@ public class PlayerMotor : MonoBehaviour
 
     public void RespawnPlayer()
     {
-        ChangeState(GetComponent<RespawnState>());
+        ChangeState(respawnState);
         GameManager.Instance.ChangeCamera(Cameras.Respawn);
     }
 
@@ -120,8 +139,8 @@ public class PlayerMotor : MonoBehaviour
     {
         CurrentLane = 0;
         transform.position = Vector3.zero;
-        animator?.SetTrigger("Idle");
-        ChangeState(GetComponent<RunningState>());
+        Animator?.SetTrigger(IDLE_ANIMATION);
+        ChangeState(runningState);
         PausePlayer();
     }
 
@@ -132,7 +151,8 @@ public class PlayerMotor : MonoBehaviour
 
         if (hitLayerName == "Death")
         {
-            ChangeState(GetComponent<DeathState>());
+            ChangeState(deathState);
+            AudioManager.Instance.PlaySFX(deathSFX);
         }
     }
 }

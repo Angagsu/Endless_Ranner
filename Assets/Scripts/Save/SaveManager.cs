@@ -2,14 +2,15 @@ using UnityEngine;
 using System.IO;
 using System;
 
+
 public class SaveManager : MonoBehaviour
 {
     public static SaveManager Instance { get; private set; }
 
-    public SaveState SaveState;
 
     private const string saveFileName = "/Data.Json";
 
+    public SaveState SaveState;
 
     public Action<SaveState> Loaded;
     public Action<SaveState> Saved;
@@ -19,7 +20,7 @@ public class SaveManager : MonoBehaviour
     {
         Instance = this;
         Load();
-        //Debug.Log(Application.dataPath + saveFileName);
+
         Debug.Log(Application.persistentDataPath + saveFileName);
     }
 

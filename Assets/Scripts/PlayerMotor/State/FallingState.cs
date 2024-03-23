@@ -1,10 +1,14 @@
 using UnityEngine;
 
+
 public class FallingState : BaseState
 {
+    private const string FALL_ANIMATION = "Fall";
+
+
     public override void Construct()
     {
-        playerMotor.animator?.SetTrigger("Fall");
+        playerMotor.Animator?.SetTrigger(FALL_ANIMATION);
     }
     public override Vector3 ProcessMotion()
     {
@@ -21,9 +25,17 @@ public class FallingState : BaseState
 
     public override void Transition()
     {
+        if (InputManager.Instance.SwipeRight)
+        {
+            playerMotor.ChangeLane(1);
+        }
+        if (InputManager.Instance.SwipeLeft)
+        {
+            playerMotor.ChangeLane(-1);
+        }
         if (playerMotor.IsGrounded)
         {
-            playerMotor.ChangeState(GetComponent<RunningState>());
+            playerMotor.ChangeState(runningState);
         }
     }
 }

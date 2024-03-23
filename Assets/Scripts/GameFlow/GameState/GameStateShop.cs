@@ -4,36 +4,39 @@ using UnityEngine.UI;
 
 public class GameStateShop : GameState
 {
-    public GameObject shopUI;
-    public TextMeshProUGUI totalFish;
-    public TextMeshProUGUI currentHatName;
-    public HatLogic hatLogic;
+    [SerializeField] private GameObject shopUI;
+    [SerializeField] private TextMeshProUGUI totalFish;
+    [SerializeField] private TextMeshProUGUI currentHatName;
+    [SerializeField] private HatLogic hatLogic;
 
-    public GameObject hatPrefab;
-    public Transform hatContainer;
+    [SerializeField] private GameObject hatPrefab;
+    [SerializeField] private Transform hatContainer;
+
+    [SerializeField] private Image completionCircle;
+    [SerializeField] private TextMeshProUGUI completionText;
+
     private Hat[] hats;
-
+    private int hatCount;
+    private int unlockedHatCount;
     private bool isInit = false;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        
-    }
 
     public override void Construct()
     {
-        GameManager.Instance.ChangeCamera(Cameras.Shop);
+        gameManager.ChangeCamera(Cameras.Shop);
         hats = Resources.LoadAll<Hat>("Hat/");
         shopUI.SetActive(true);
         totalFish.text = SaveManager.Instance.SaveState.Fish.ToString("0000");
+
         if (!isInit)
-        {
-            
+        {    
             currentHatName.text = hats[SaveManager.Instance.SaveState.CurrentHatIndex].ItemName;
             PopulateShop();
+            hatCount = hats.Length - 1;
             isInit = true;
-        }    
+        }   
+        
+        ResetCompletionCircle();
     }
 
     public override void Destruct()
@@ -43,7 +46,7 @@ public class GameStateShop : GameState
 
     public void OnHomeClick()
     {
-        gameManager.ChangeState(GetComponent<GameStateInit>());
+        gameManager.ChangeState(gameStateInit);
     }
 
     private void PopulateShop()
@@ -65,6 +68,7 @@ public class GameStateShop : GameState
             else
             {
                 go.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "";
+                unlockedHatCount++;
             }
             
         }
@@ -90,13 +94,20 @@ public class GameStateShop : GameState
             totalFish.text = SaveManager.Instance.SaveState.Fish.ToString("000");
             SaveManager.Instance.Save();
             hatContainer.GetChild(i).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "";
-
+            unlockedHatCount++;
+            ResetCompletionCircle();
         }
         else
         {
             Debug.Log("Not enough fish");
-        }
+        } 
+    }
 
-        
+    private void ResetCompletionCircle()
+    {  
+        int currentlyUnlockedCount = unlockedHatCount - 1;
+
+        completionCircle.fillAmount = (float)currentlyUnlockedCount / (float)hatCount;
+        completionText.text = currentlyUnlockedCount + " / " + hatCount;
     }
 }

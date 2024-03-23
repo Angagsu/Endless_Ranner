@@ -1,23 +1,25 @@
 using UnityEngine;
 using TMPro;
-using System;
+
 
 public class GameStateGame : GameState
 {
-    public GameObject gameUI;
+    [SerializeField] private GameObject gameUI;
     [SerializeField] private TextMeshProUGUI highscoreText;
     [SerializeField] private TextMeshProUGUI fishCountText;
+    [SerializeField] private AudioClip gameMusic;
 
     public override void Construct()
     {
-        base.Construct();
-        GameManager.Instance.PlayerMotor.ResumePlayer();
-        GameManager.Instance.ChangeCamera(Cameras.Game);
+        gameManager.PlayerMotor.ResumePlayer();
+        gameManager.ChangeCamera(Cameras.Game);
 
         GameStats.Instance.FishCollected += OnFishCollected;
         GameStats.Instance.ScoreChanged += OnScoreChanged;
 
         gameUI.SetActive(true);
+
+        AudioManager.Instance.PlayMusicWithXFade(gameMusic, 0.5f);
     }
 
     private void OnScoreChanged(float score)
@@ -39,7 +41,7 @@ public class GameStateGame : GameState
 
     public override void UpdateState()
     {
-        GameManager.Instance.WorldGeneration.ScanPosition();
-        GameManager.Instance.SceneChunkGeneration.ScanPosition();
+        gameManager.WorldGeneration.ScanPosition();
+        gameManager.SceneChunkGeneration.ScanPosition();
     }
 }

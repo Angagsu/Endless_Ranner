@@ -1,21 +1,25 @@
 using UnityEngine;
 
+
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get { return instance; } }
-    private static GameManager instance;
+    public static GameManager Instance { get; private set; }
+    
 
-    public PlayerMotor PlayerMotor;
-    public WorldGeneration WorldGeneration;
-    public SceneChunkGeneration SceneChunkGeneration;
-    public GameObject[] cameras;
+    [field: SerializeField] public PlayerMotor PlayerMotor { get; private set; }
+    [field: SerializeField] public WorldGeneration WorldGeneration { get; private set; }
+    [field: SerializeField] public SceneChunkGeneration SceneChunkGeneration { get; private set; }
+
+    [SerializeField] private GameObject[] cameras;
 
     private GameState state;
 
-
-    private void Start()
+    private void Awake()
     {
-        instance = this;
+        Instance = this;
+    }
+    private void Start()
+    {  
         state = GetComponent<GameStateInit>();
         state.Construct();
     }

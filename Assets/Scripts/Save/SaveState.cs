@@ -5,12 +5,12 @@ public class SaveState
 {
     [NonSerialized] private const int HAT_COUNT = 16;
 
+    public DateTime LastSaveTime;
     public int Highscore;
     public int Fish;
-    public DateTime LastSaveTime;
     public int CurrentHatIndex;
-
     public byte[] UnlockedHatFlag;
+
 
     public SaveState()
     {

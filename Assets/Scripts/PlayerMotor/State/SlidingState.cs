@@ -1,7 +1,13 @@
 using UnityEngine;
+
+
 public class SlidingState : BaseState
 {
-    public float slideDuration = 1f;
+    private const string SLIDE_ANIMATION = "Slide";
+    private const string RUNNING_ANIMATION = "Running";
+
+
+    [SerializeField] private float slideDuration = 1f;
 
     private Vector3 initialCenter;
     private float initialSize;
@@ -9,7 +15,7 @@ public class SlidingState : BaseState
 
     public override void Construct()
     {
-        playerMotor.animator?.SetTrigger("Slide");
+        playerMotor.Animator?.SetTrigger(SLIDE_ANIMATION);
         slideStart = Time.time;
 
         initialSize = playerMotor.Controller.height;
@@ -23,7 +29,7 @@ public class SlidingState : BaseState
     {
         playerMotor.Controller.height = initialSize;
         playerMotor.Controller.center = initialCenter;
-        playerMotor.animator?.SetTrigger("Running");
+        playerMotor.Animator?.SetTrigger(RUNNING_ANIMATION);
     }
 
     public override void Transition()
@@ -38,15 +44,15 @@ public class SlidingState : BaseState
         }
         if (!playerMotor.IsGrounded)
         {
-            playerMotor.ChangeState(GetComponent<FallingState>());
+            playerMotor.ChangeState(fallingState);
         }
         if (InputManager.Instance.SwipeUp)
         {
-            playerMotor.ChangeState(GetComponent<JumpingState>());
+            playerMotor.ChangeState(jumpingState);
         }
         if (Time.time - slideStart > slideDuration)
         {
-            playerMotor.ChangeState(GetComponent<RunningState>());
+            playerMotor.ChangeState(runningState);
         }
     }
 
