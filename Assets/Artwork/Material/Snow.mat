@@ -91,7 +91,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _mainTexture:
-        m_Texture: {fileID: 2800000, guid: 73b94f68e03b8fa4483ea779bed0c51b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9911027ad314d6b468471740c7d71f48, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -152,13 +152,14 @@ Material:
     - _ZWrite: 1
     - _curvature: 0.00012
     - _offset: 0
-    - _tiling: 25
+    - _tiling: 7
     m_Colors:
     - Vector2_F5E3D7D7: {r: 0, g: -90.02279, b: 0, a: 0}
     - _BaseColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
     - _Color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-    - _offset: {r: 0, g: -0, b: 0, a: 0}
+    - _offset: {r: 0, g: -91.59341, b: 0, a: 0}
     - snowOffset: {r: 0, g: -0, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
